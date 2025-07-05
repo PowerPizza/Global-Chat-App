@@ -97,6 +97,11 @@ ws.on("connection", async (soc)=>{
 
 http_svr.listen(process.env.PORT, process.env.IP, ()=>{
     console.log("**Server is running at :- ");
-    console.log(`\t**http://${os.networkInterfaces()["Wi-Fi"][1]["address"]}:${process.env.PORT}`);
-    console.log(`\t**http://127.0.0.1:${process.env.PORT}`);
+    try {
+        console.log(`\t**http://${os.networkInterfaces()["Wi-Fi"][1]["address"]}:${process.env.PORT}`);
+        console.log(`\t**http://127.0.0.1:${process.env.PORT}`);
+    }
+    catch (e) {
+        console.log(`OS ERROR : ${e} | But server is running...`);
+    }
 })
