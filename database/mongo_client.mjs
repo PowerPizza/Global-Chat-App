@@ -1,9 +1,10 @@
 import { MongoClient } from 'mongodb'
 
+let client = null;
 let db_ = null;
 
 export async function initDatabase(){
-    const client = new MongoClient(process.env.MONGODB_URL);
+    client = new MongoClient(process.env.MONGODB_URL);
     if (!db_){
         await client.connect();
         db_ = client.db("GlobalChatApp");
@@ -16,4 +17,12 @@ export function getDatabaseInstance(){
         return;
     }
     return db_;
+}
+
+export function getMongoDBClient(){
+    if (!client){
+        console.log("Client is not initialized yet.");
+        return;
+    }
+    return client;
 }

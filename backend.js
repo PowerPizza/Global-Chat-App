@@ -7,9 +7,9 @@ import signup_route from './routes/signup.mjs'
 import login_route from './routes/login.mjs'
 import db_route from './routes/db_queries.mjs'
 import dotenv from 'dotenv'
-import {initDatabase, getDatabaseInstance} from './database/mongo_client.mjs'
+import {initDatabase, getDatabaseInstance, getMongoDBClient} from './database/mongo_client.mjs'
 import session from 'express-session';
-import { ObjectId } from 'mongodb';
+import MongoStore from 'connect-mongo'
 
 dotenv.config();
 await initDatabase();
@@ -17,17 +17,21 @@ await initDatabase();
 
 const app = express();
 const http_svr = http.createServer(app);
-const ws = new Server(http_svr, {cors: {
-    origin: "*"
-  }}
-);
+const ws = new Server(http_svr);
 
 const PUBLIC_FOLDER = path.join(import.meta.dirname, "frontend/build");
 app.use(express.static(PUBLIC_FOLDER));
 const sessionMW = session({
     secret: process.env.APP_SECRET_KEY,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: MongoStore.create({
+        client: getMongoDBClient(),
+        dbName: "GlobalChatApp",
+        collectionName: "sessions",
+        ttl: 14 * 24 * 60 * 60
+    }),
+    cookie: {maxAge: 1000 * 60 * 60 * 24}
 });
 
 app.use(sessionMW);
