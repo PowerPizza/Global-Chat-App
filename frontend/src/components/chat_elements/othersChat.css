@@ -1,0 +1,46 @@
+.others_chat_body{
+    display: grid;
+    grid-template-columns: 60px auto;
+    grid-template-rows: auto auto;
+    width: fit-content;
+    max-width: 350px;
+    height: fit-content;
+    margin-right: auto;
+}
+
+.others_chat_body .msg_holder{
+    background-color: #2b234b;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    padding: 15px;
+    height: fit-content;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+.others_chat_body .msg_holder .msg{
+    white-space: pre-line;
+}
+
+.others_chat_body .pfp_holder{
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: auto;
+    margin-top: -15px;
+}
+.others_chat_body .pfp_holder img{
+    width: 50px;
+    aspect-ratio: 1/1;
+    background-color: white;
+    border-radius: 50px;
+}
+.others_chat_body .pfp_holder .msg_time{
+    color: #c9c9c9;
+    font-size: 0.9rem;
+}

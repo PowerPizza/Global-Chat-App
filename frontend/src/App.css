@@ -1,0 +1,15 @@
+.main_body{
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #170125;
+  background-image: linear-gradient(to left bottom, #370053, #3d0064, #410076, #440089, #44009d, #4500a2, #4700a6, #170125);
+  background-image: url('images/background.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+

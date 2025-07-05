@@ -1,0 +1,12 @@
+.loading_circle_body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  animation: rotater 1s infinite linear;
+}
+@keyframes rotater {
+  0% {rotate: 0deg;}
+  100% {rotate: 360deg;}
+}

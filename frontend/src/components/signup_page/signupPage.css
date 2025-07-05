@@ -1,0 +1,82 @@
+.signup_main_window{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(8px);
+    user-select: none;
+}
+
+.signup_main_window .app_icon_holder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+.signup_main_window .app_icon_holder .app_icon{
+    width: 150px;
+    height: 150px;
+}
+.signup_main_window .app_icon_holder .app_name{
+    font-size: 2.1rem;
+    font-weight: 600;
+    margin: 5px;
+}
+@media screen and (max-width: 600px) {
+    .signup_main_window .app_icon_holder{
+        display: none;
+    }
+}
+
+.signup_main_window .form_area{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px 20px 15px 20px;
+    max-width: 300px;
+    height: fit-content;
+    border-radius: 5px;
+    margin: auto;
+}
+@media screen and (max-width: 350px){
+    .signup_main_window .form_area{
+        width: 100%;
+        border-radius: 0px;
+        height: 100%;
+    }
+}
+.signup_main_window .form_area .form_title{
+    margin: 5px;
+    font-weight: 600;
+}
+
+.signup_main_window .form_area .form_btn.disabled{
+    background-image: linear-gradient(to right, #dcdcdc, #c9c9c9, #b6b6b6, #a4a4a4, #929292);
+    cursor: not-allowed;
+}
+
+.signup_main_window .form_area .pfp_entry{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.signup_main_window .form_area .pfp_entry img{
+    border-radius: 60px;
+    background-color: white;
+    width: 60px;
+    aspect-ratio: 1/1;
+}
+
+.signup_main_window .form_area .terms_n_conditions{
+    color: gray;
+    font-size: 0.9rem;
+}
+.signup_main_window .form_area .terms_n_conditions label{
+    margin-left: 5px;
+}
+
+.signup_main_window .form_area .switch_login{
+    color: gray;
+    font-size: 1rem;
+    margin: auto;
+}

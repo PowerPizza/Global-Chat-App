@@ -1,0 +1,43 @@
+.msg_main_body{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    min-width: 300px;
+    max-width: 400px;
+    min-height: 60px;
+    max-height: 100px;
+    z-index: 10;
+    border-radius: 4px;
+    padding: 5px;
+    animation: anim_msg_appr 0.1s;
+    overflow: hidden;
+}
+@keyframes anim_msg_appr {
+    0% {min-height: 0px; max-height: 0px;}
+    100% {min-height: 60px; max-height: 100px;}
+}
+
+.msg_main_body .repr_icon{
+    width: 35px;
+    height: 35px;
+    stroke-width: 2px;
+}
+.msg_main_body .msg{
+    font-size: 1.02rem;
+    width: 100%;
+    max-height: 70px;
+    word-wrap: break-word;
+    font-weight: 500;
+    overflow-y: auto;
+    white-space: pre-line;
+}
+.msg_main_body .close_icon{
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    margin-bottom: auto;
+    cursor: pointer;
+}

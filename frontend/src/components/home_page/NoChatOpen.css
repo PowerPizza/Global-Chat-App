@@ -1,0 +1,24 @@
+.no_chat_body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin: auto;
+    max-width: 350px;
+}
+.no_chat_body .app_icon{
+    width: 100px;
+    aspect-ratio: 1/1;
+}
+.no_chat_body .tag_line{
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 5px;
+}
+.no_chat_body .additional_msg{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgb(172, 172, 172);
+    margin: auto;
+    text-align: center;
+}

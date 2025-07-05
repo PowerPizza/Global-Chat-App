@@ -1,0 +1,101 @@
+.chat_area_body{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+}
+
+.chat_area_body .chat_header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #564781;
+}
+
+.chat_area_body .chat_header .pfp{
+    width: 55px;
+    aspect-ratio: 1/1;
+    border-radius: 55px;
+    background-color: white;
+}
+.chat_area_body .chat_header .user_name{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.chat_area_body .chat_header .info_icon{
+    margin-left: auto;
+}
+
+.chat_area_body .chat_area{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    overflow: auto;
+    gap: 15px;
+}
+.chat_area_body .chat_area::-webkit-scrollbar{
+    width: 3px;
+}
+.chat_area_body .chat_area::-webkit-scrollbar-track{
+    background-color: #5647812f;
+}
+.chat_area_body .chat_area::-webkit-scrollbar-thumb{
+    background-color: #564781c7;
+}
+
+.chat_area_body .chat_entry {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.chat_area_body .chat_entry .input_holder{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    border-radius: 25px;
+    background: linear-gradient(to right, #3f3d6c, #252628);
+    padding-right: 20px;
+}
+.chat_area_body .chat_entry .input_holder .msg_entry{
+    word-break: break-all;
+    border: 0;
+    border-radius: 25px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 10px;
+    field-sizing: content;
+    resize: none;
+    max-height: 100px;
+    width: 100%;
+    background: linear-gradient(to right, #3f3d6c, #252628);
+    &:focus{
+        box-shadow: none;
+    }
+}
+.chat_area_body .chat_entry .input_holder .msg_entry::-webkit-scrollbar{
+    width: 4px;
+}
+.chat_area_body .chat_entry .input_holder .msg_entry::-webkit-scrollbar-track{
+    background-color: #5647817a;
+}
+.chat_area_body .chat_entry .input_holder .msg_entry::-webkit-scrollbar-thumb{
+    background-color: #564781;
+}
+
+.chat_area_body .chat_entry .msg_send_btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #994fc8, #994fc8, #994fc8, #602bca);
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    padding: 8px;
+    scale: 0.9;
+    border-radius: 40px;
+    margin-left: auto;
+}

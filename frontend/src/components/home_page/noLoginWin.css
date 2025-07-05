@@ -1,0 +1,26 @@
+.no_login_body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin: auto;
+    max-width: 350px;
+}
+.no_login_body .app_icon{
+    width: 100px;
+    aspect-ratio: 1/1;
+}
+.no_login_body .tag_line{
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin: 5px;
+}
+.no_login_body .msg{
+    font-size: 1.4rem;
+    text-align: center;
+}
+.no_login_body .opt_btn{
+    width: 270px;
+    padding: 10px 0px 10px 0px;
+    font-size: 1.2rem;
+}

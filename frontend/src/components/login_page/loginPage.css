@@ -1,0 +1,14 @@
+.signup_main_window .form_area .switch_signup{
+    color: gray;
+    font-size: 1rem;
+    margin: auto;
+}
+
+.signup_main_window .form_area .forgot_password{
+    color: gray;
+    font-size: 0.9rem;
+    margin-top: -15px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #793aea;
+}
