@@ -12,3 +12,10 @@
     cursor: pointer;
     color: #793aea;
 }
+
+.signup_main_window .form_area .form_btn{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}

@@ -2,6 +2,7 @@ import './signupPage.css'
 import app_icon from '../../images/app_icon.png'
 import { Link, Navigate } from 'react-router-dom'
 import { useState } from 'react'
+import LoadingCircle from '../loading_circle/LoadingCircle';
 
 export default function SignupPage(props) {
   const [username, setUsername] = useState("");
@@ -9,6 +10,7 @@ export default function SignupPage(props) {
   const [password, setPassword] = useState("");
   const [pfp_url, setPfpUrl] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   function onUsernameInput(ele){
     setUsername(ele.target.value);
@@ -50,6 +52,7 @@ export default function SignupPage(props) {
       "password": password,
       "pfp_url": pfp_url+"#"
     }
+    setIsLogin(true);
     let http_resp = await fetch("/signup/add_user", {method: "POST", body: JSON.stringify(to_send), headers: {"Content-Type": "application/json"}});
     http_resp = await http_resp.json();
     if (http_resp.status === "success"){
@@ -63,6 +66,7 @@ export default function SignupPage(props) {
     else{
       props.createMsgBox(`Signup failed.\nError : ${http_resp["error"]}`, "error");
     }
+    setIsLogin(false);
   }
 
   if (props.user_creds && Object.keys(props.user_creds).length) {
@@ -85,9 +89,23 @@ export default function SignupPage(props) {
           <input type="text" placeholder='Image URL' className='form_entry' onChange={onPfpUrlInput} />
         </div>
         {acceptedTerms ?
-          <button className='form_btn' onClick={onCreateAccount}>Create Account</button>
+          <button className='form_btn' onClick={onCreateAccount}>
+            Create Account
+            {isLogin ?
+            <span>
+              <LoadingCircle color="white" />
+            </span> : null
+            }
+          </button>
         :
-          <button className='form_btn disabled' disabled>Create Account</button>
+          <button className='form_btn disabled' disabled>
+            Create Account
+            {isLogin ?
+            <span>
+              <LoadingCircle color="white" />
+            </span> : null
+            }
+          </button>
         }
         <span className='terms_n_conditions'>
           <input type="checkbox" name='agree' onChange={onAcceptTerms} />

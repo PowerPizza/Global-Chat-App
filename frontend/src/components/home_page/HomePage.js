@@ -22,13 +22,17 @@ function UserChatElement(props) {
 }
 
 export default function HomePage(props) {
+  const [isLogout, setIsLogout] = useState(false);
+
   async function on_logout() {
+    setIsLogout(true);
     let http_resp = await fetch("/login/log_out", { method: "POST" });
     http_resp = await http_resp.json();
     if (http_resp.status === "success") {
       props.reload_users();
       props.get_login_creds();
     }
+    setIsLogout(false);
   }
 
   return (
@@ -74,7 +78,13 @@ export default function HomePage(props) {
             <img src={props.user_creds["pfp_url"]} alt="" className='pfp' />
             <span className='user_name'><span style={{ color: "#48cb03" }}>●</span> {props.user_creds["username"]}</span>
             <div className='btn_holder'>
-              <button className='form_btn logout_btn' onClick={on_logout}>Logout</button>
+              <button className='form_btn logout_btn' onClick={on_logout}>
+                Logout
+                {isLogout ? 
+                <span>
+                  <LoadingCircle color="white" />
+                </span> : null}
+              </button>
             </div>
           </div>
         }

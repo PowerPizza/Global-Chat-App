@@ -3,10 +3,12 @@ import '../signup_page/signupPage.css'
 import app_icon from '../../images/app_icon.png'
 import { Link, Navigate } from 'react-router-dom'
 import { useState } from 'react'
+import LoadingCircle from '../loading_circle/LoadingCircle'
 
 export default function LoginPage(props) {
   const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function onGmailInput(ele){
     setGmail(ele.target.value);
@@ -20,6 +22,7 @@ export default function LoginPage(props) {
       "gmail": gmail,
       "password": password
     }
+    setIsLoading(true);
     let http_resp = await fetch("/login/log_in", {method: "POST", body: JSON.stringify(to_send), headers: {"Content-Type": "application/json"}});
     http_resp = await http_resp.json();
     if (http_resp.status === "success") {
@@ -30,6 +33,7 @@ export default function LoginPage(props) {
     else{
       props.createMsgBox(`Failed to login.\nError : ${http_resp.error}`, "error");
     }
+    setIsLoading(false);
   }
 
   if (props.user_creds && Object.keys(props.user_creds).length) {
@@ -47,7 +51,14 @@ export default function LoginPage(props) {
         <input type="email" placeholder='gmail' className='form_entry' onChange={onGmailInput} />
         <input type="password" placeholder='password' className='form_entry' onChange={onPasswordInput} />
         <span className='forgot_password'>Forgot password?</span>
-        <button className='form_btn' onClick={onSubmitLogin}>Login</button>
+        <button className='form_btn' onClick={isLoading ? ()=>{}: onSubmitLogin}>
+          Login
+          {isLoading ? 
+          <span>
+            <LoadingCircle color="white" />
+          </span>
+          : null}
+        </button>
         <span className='switch_signup'>Don't have an account? <Link style={{color: "#8c4eec", fontWeight: "600", textDecoration: "none"}} to={"/signup"}>Signup here</Link></span>
       </div>
     </div>
