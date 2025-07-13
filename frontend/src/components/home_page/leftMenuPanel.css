@@ -1,0 +1,181 @@
+.left_menu_body{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: fit-content;
+    width: 300px;
+    box-shadow: none;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0);
+    user-select: none;
+}
+@media screen and (max-width: 650px) {
+    .left_menu_body{
+        margin: auto;
+        position: absolute;
+        inset: 0;
+        min-width: auto;
+        max-width: auto;
+        width: auto;
+    }
+}
+
+.left_menu_body .left_side_header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.left_menu_body .left_side_header .app_icon{
+    width: 40px;
+    aspect-ratio: 1/1;
+}
+.left_menu_body .left_side_header .app_title{
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.left_menu_body .left_side_header .menu_dot{
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    padding: 3px;
+    cursor: pointer;
+}
+.left_menu_body .left_side_header .menu_dot .menu_dot{
+    border-radius: 30px;
+    transition: all 0.3s;
+    &:hover{
+        background-color: rgba(99, 99, 99, 0.459);
+    }
+}
+.left_menu_body .left_side_header .menu_dot .menu_box{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    translate: -145px 0px;
+    width: 170px;
+    max-height: 100px;
+    box-shadow: 0px 0px 6px 0px rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    border-radius: 5px;
+    overflow: hidden;
+    animation: small_menu_open 0.3s;
+}
+@keyframes small_menu_open {
+    0% {max-height: 0px;}
+    100% {max-height: 100px;}
+}
+.left_menu_body .left_side_header .menu_dot .menu_box .menu_opt{
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.left_menu_body .no_login_btns{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+@media screen and (min-width: 650px) {
+    .left_menu_body .no_login_btns{
+        display: none;
+    }
+}
+.left_menu_body .no_login_btns .opt_btn{
+    width: 100%;
+    padding: 7px 0px 7px 0px;
+}
+
+
+.left_menu_body .search_area{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(to right, #282340, #282340, #282341, #282341, #282342);;
+    border-radius: 10px;
+}
+.left_menu_body .search_area .search_icon{
+    margin-left: 10px;
+}
+.left_menu_body .search_area input{
+    color: white;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    outline: none;
+    padding: 10px 5px 10px 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    &::placeholder{
+        color: white;
+    }
+}
+.left_menu_body .chat_list{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+}
+.left_menu_body .chat_list .no_user{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* ----------------- USER CHAT ELEMENT STYLE ------------------ */
+.left_menu_body .user_chat_ele{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover{
+        background-color: #8b6ff83a;
+    }
+}
+.left_menu_body .user_chat_ele .pfp{
+    width: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 50px;
+    background-color: rgba(225, 253, 255, 0.226);
+}
+.left_menu_body .user_chat_ele .info{
+    display: flex;
+    flex-direction: column;
+}
+.left_menu_body .user_chat_ele .info .username{
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.left_menu_body .user_chat_ele .info .status{
+    color: #40ff00;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.left_menu_body .user_chat_ele .info .status.offline{
+    color: #89888c;
+}
+.left_menu_body .user_chat_ele .notification{
+    margin-left: auto;
+    background-color: #8a6ff8;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 25px;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    text-align: center;
+}

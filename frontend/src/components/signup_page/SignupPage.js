@@ -3,6 +3,7 @@ import app_icon from '../../images/app_icon.png'
 import { Link, Navigate } from 'react-router-dom'
 import { useState } from 'react'
 import LoadingCircle from '../loading_circle/LoadingCircle';
+import { isObjectEmpty } from '../../other_functions/OtherFunctions'
 
 export default function SignupPage(props) {
   const [username, setUsername] = useState("");
@@ -69,7 +70,7 @@ export default function SignupPage(props) {
     setIsLogin(false);
   }
 
-  if (props.user_creds && Object.keys(props.user_creds).length) {
+  if (!isObjectEmpty(props.user_creds)) {
     return (<Navigate to={"/"}/>)
   }
 

@@ -1,19 +1,25 @@
-import { InfoCircle, MediaImage, SendDiagonalSolid } from 'iconoir-react'
+import { ArrowLeft, InfoCircle, MediaImage, SendDiagonalSolid } from 'iconoir-react'
 import './chatArea.css'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import OthersChat from '../chat_elements/OthersChat';
 import SelfChat from '../chat_elements/SelfChat';
 import LoadingCircle from '../loading_circle/LoadingCircle';
+import { SharedContext } from '../../contexts/SharedDataContext';
 
 export default function ChatArea(props) {
     const [msg_, setMsg] = useState("");
+    const shared_data = useContext(SharedContext);
 
     function onMsgInput(ele){
         setMsg(ele.target.value);
     }
 
     function onSend(){
-        props.send_chat(msg_);
+        shared_data.send_chat(msg_);
+    }
+
+    function go_back(){
+        shared_data.switch_chat(null);
     }
 
     function scroll_to_bottom() {
@@ -30,27 +36,30 @@ export default function ChatArea(props) {
   return (
     <div className='chat_area_body'>
         <div className='chat_header'>
-            <img src={props.selected_chat["pfp_url"]} alt="" className='pfp' />
-            <span className='user_name'>{props.selected_chat["username"]} <span style={{color: (props.selected_chat["status"] || "offline") === "offline" ? "#89888c" : "#48cb03"}}>●</span></span>
+            {props.device_width < 920 ? 
+            <ArrowLeft width={25} height={25} color='white' strokeWidth={2} onClick={go_back} style={{cursor: "pointer"}}/>
+            : null}
+            <img src={shared_data.selected_chat["pfp_url"]} alt="" className='pfp' />
+            <span className='user_name'>{shared_data.selected_chat["username"]} <span style={{color: (shared_data.selected_chat["status"] || "offline") === "offline" ? "#89888c" : "#48cb03"}}>●</span></span>
             <InfoCircle width={30} height={30} color='white' className='info_icon'/>
         </div>
 
         <div className='chat_area' id='chat_area'>
-            {!props.chats ?
+            {!shared_data.chats ?
             <LoadingCircle />
             :
-                !props.chats.length ?
+                !shared_data.chats.length ?
                 <span style={{textAlign: "center"}}>No chats found! Send 'Hi' to start chatting.</span>
                 :
-                props.chats.map((ele, idx)=>{
-                    if (idx === props.chats.length-1) {
+                shared_data.chats.map((ele, idx)=>{
+                    if (idx === shared_data.chats.length-1) {
                         scroll_to_bottom();
                     }
-                    if (ele["from"] === props.selected_chat["_id"]) {
-                        return <OthersChat key={idx+"_other_chat"} msg={ele["msg"]} time={ele["time"]} pfp_url={props.selected_chat["pfp_url"]} />
+                    if (ele["from"] === shared_data.selected_chat["_id"]) {
+                        return <OthersChat key={idx+"_other_chat"} msg={ele["msg"]} time={ele["time"]} pfp_url={shared_data.selected_chat["pfp_url"]} />
                     }
                     else {
-                        return <SelfChat key={idx+"_self_chat"} msg={ele["msg"]} time={ele["time"]} pfp_url={props.user_creds["pfp_url"]} />
+                        return <SelfChat key={idx+"_self_chat"} msg={ele["msg"]} time={ele["time"]} pfp_url={shared_data.user_creds["pfp_url"]} />
                     }
                 })
             }

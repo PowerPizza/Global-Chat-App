@@ -4,6 +4,7 @@ import app_icon from '../../images/app_icon.png'
 import { Link, Navigate } from 'react-router-dom'
 import { useState } from 'react'
 import LoadingCircle from '../loading_circle/LoadingCircle'
+import { isObjectEmpty } from '../../other_functions/OtherFunctions'
 
 export default function LoginPage(props) {
   const [gmail, setGmail] = useState("");
@@ -36,7 +37,7 @@ export default function LoginPage(props) {
     setIsLoading(false);
   }
 
-  if (props.user_creds && Object.keys(props.user_creds).length) {
+  if (!isObjectEmpty(props.user_creds)) {
     return (<Navigate to={"/"}/>)
   }
 

@@ -21,6 +21,7 @@
 }
 .others_chat_body .msg_holder .msg{
     white-space: pre-line;
+    user-select: text;
 }
 
 .others_chat_body .pfp_holder{
@@ -43,4 +44,5 @@
 .others_chat_body .pfp_holder .msg_time{
     color: #c9c9c9;
     font-size: 0.9rem;
+    white-space: nowrap;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import {Route, BrowserRouter as Router, Routes} from 'react-router-dom'
 import SignupPage from './components/signup_page/SignupPage'
@@ -6,7 +6,7 @@ import HomePage from './components/home_page/HomePage'
 import LoginPage from './components/login_page/LoginPage'
 import {io} from 'socket.io-client'
 import MessageBox from './components/message_boxes/MessageBox'
-
+import { SharedContext } from './contexts/SharedDataContext'
 
 export default function App() {
   const [msgBox, setMsgBox] = useState();
@@ -27,6 +27,11 @@ export default function App() {
   }
 
   async function switchChat(metadata) {
+    if (!metadata){
+      setChats(null)
+      setSelectedChat(null)
+      return;
+    }
     let http_resp = await fetch("/db_q/get_conversations", {method: "POST", body: JSON.stringify({between: [user_creds["_id"], metadata["_id"]]}), headers: {"Content-Type": "application/json"}});
     http_resp = await http_resp.json();
     setChats(http_resp["chats"]);
@@ -63,6 +68,15 @@ export default function App() {
     ws.current.emit("new_user_online");
   }
 
+  async function on_logout() {
+    let http_resp = await fetch("/login/log_out", { method: "POST" });
+    http_resp = await http_resp.json();
+    if (http_resp.status === "success") {
+      shared_data.ws.emit("new_user_online");
+      shared_data.get_login_creds();
+    }
+  }
+
   useEffect(() => {
     user_creds_ref.current = user_creds;
     selected_chat_ref.current = selected_chat;
@@ -86,16 +100,31 @@ export default function App() {
     get_login_creds();
   }, []);
 
+  const shared_data = {
+    "ws": ws.current,
+    "get_login_creds": get_login_creds,
+    "create_msg_box": createMsgBox,
+    "user_creds": user_creds,
+    "available_users": available_users,
+    "switch_chat": switchChat,
+    "send_chat": sendChat,
+    "selected_chat": selected_chat,
+    "chats": chats,
+    "on_logout": on_logout
+  }
+
   return (
-    <Router>
-      {msgBox}
-      <div className='main_body'>
-        <Routes>
-          <Route path='/' element={<HomePage available_users={available_users} user_creds={user_creds} get_login_creds={get_login_creds} send_chat={sendChat} switch_chat={switchChat} selected_chat={selected_chat} chats={chats} reload_users={reload_users} disable_send_btn={disable_send_btn} />} />
-          <Route path='/signup' element={<SignupPage createMsgBox={createMsgBox} get_login_creds={get_login_creds} user_creds={user_creds} reload_users={reload_users} />} />
-          <Route path='/login' element={<LoginPage createMsgBox={createMsgBox} get_login_creds={get_login_creds} user_creds={user_creds} reload_users={reload_users} />} />
-        </Routes>
-      </div>
-    </Router>
+    <SharedContext.Provider value={shared_data}>
+      <Router>
+        {msgBox}
+        <div className='main_body'>
+          <Routes>
+            <Route path='/' element={<HomePage user_creds={user_creds} selected_chat={selected_chat} disable_send_btn={disable_send_btn} />} />
+            <Route path='/signup' element={<SignupPage createMsgBox={createMsgBox} get_login_creds={get_login_creds} user_creds={user_creds} reload_users={reload_users} />} />
+            <Route path='/login' element={<LoginPage createMsgBox={createMsgBox} get_login_creds={get_login_creds} user_creds={user_creds} reload_users={reload_users} />} />
+          </Routes>
+        </div>
+      </Router>
+    </SharedContext.Provider>
   )
 }
