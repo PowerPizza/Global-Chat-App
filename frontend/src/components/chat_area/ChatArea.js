@@ -9,7 +9,7 @@ import DrawChatArea from '../chat_mode_draw/DrawChatArea';
 
 export default function ChatArea(props) {
     const [msg_, setMsg] = useState("");
-    const [chat_mode, setChatMode] = useState("draw");
+    const [chat_mode, setChatMode] = useState("text");
     const [opt_menu_opened, setOptMenuOpened] = useState(false);
     const [draw_sending, setDrawSending] = useState(false);
     const shared_data = useContext(SharedContext);
