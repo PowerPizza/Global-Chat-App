@@ -54,6 +54,7 @@ export default function App() {
     let to_send = {
       "from": user_creds["_id"],
       "to": selected_chat["_id"],
+      "type": "text",
       "msg": msg_,
       "date": `${String(d.getDate()).padStart(2, 0)}-${String(d.getMonth()).padStart(2, 0)}-${d.getFullYear()}`,
       "time": d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true})
@@ -96,6 +97,14 @@ export default function App() {
         console.log("CHAT NOT OPEN");
       }
     });
+    ws.current.on("draw_chat", (data)=>{
+      if (selected_chat_ref.current && user_creds_ref.current && data["from"] === selected_chat_ref.current["_id"]){
+        setChats((old_msgs)=>[...old_msgs, data]);
+      }
+      else {
+        console.log("CHAT NOT OPEN");
+      }
+    });
 
     get_login_creds();
   }, []);
@@ -110,6 +119,7 @@ export default function App() {
     "send_chat": sendChat,
     "selected_chat": selected_chat,
     "chats": chats,
+    "setChats": setChats,
     "on_logout": on_logout
   }
 

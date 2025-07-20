@@ -76,6 +76,11 @@ ws.on("connection", async (soc)=>{
         callback(true);
     });
 
+    soc.on("draw_chat", (data, callback)=>{
+        soc.broadcast.emit("draw_chat", data);
+        callback(true);
+    })
+
     soc.on("disconnect", async ()=>{
         if ("user_creds" in soc.request.session) {
             console.log("DISCONNECTED : ", soc.request.session.user_creds);

@@ -59,6 +59,12 @@
     background: linear-gradient(to right, #3f3d6c, #252628);
     padding-right: 20px;
 }
+.chat_area_body .chat_entry .input_holder.draw{
+    border-radius: 5px;
+    padding: 0;
+    gap: 5px;
+}
+
 .chat_area_body .chat_entry .input_holder .msg_entry{
     word-break: break-all;
     border: 0;
@@ -84,6 +90,56 @@
 .chat_area_body .chat_entry .input_holder .msg_entry::-webkit-scrollbar-thumb{
     background-color: #564781;
 }
+
+.chat_area_body .chat_entry .input_holder .send_options{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.chat_area_body .chat_entry .input_holder .send_options .opt_holder{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: auto;
+    position: absolute;
+    right: -30%;
+    bottom: 50px;
+    width: fit-content;
+    height: fit-content;
+    padding: 6px;
+    overflow: hidden;
+    animation: opt_menu_apper 0.3s;
+}
+@keyframes opt_menu_apper {
+    0% {max-height: 0%;}
+    100% {max-height: 250px;}
+}
+.chat_area_body .chat_entry .input_holder .send_options .opt_holder .opt{
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(45deg, #3f3d6cb4, #252628b9);
+    border-radius: 8px;
+    padding: 5px;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid gray;
+    &:hover{
+        scale: 1.02;
+    }
+}
+.chat_area_body .chat_entry .input_holder .send_options .opt_holder .opt .icon{
+    min-width: 30px;
+    min-height: 30px;
+}
+.chat_area_body .chat_entry .input_holder .send_options .opt_holder .opt span{
+    font-size: 0.8rem;
+    text-align: center;
+}
+
 
 .chat_area_body .chat_entry .msg_send_btn{
     display: flex;

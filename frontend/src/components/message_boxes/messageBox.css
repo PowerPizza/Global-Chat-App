@@ -15,6 +15,16 @@
     animation: anim_msg_appr 0.1s;
     overflow: hidden;
 }
+@media screen and (max-width: 620px){
+    .msg_main_body{
+        margin: auto;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: auto;
+        width: auto;
+    }
+}
 @keyframes anim_msg_appr {
     0% {min-height: 0px; max-height: 0px;}
     100% {min-height: 60px; max-height: 100px;}

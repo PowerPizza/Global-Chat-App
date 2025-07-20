@@ -23,7 +23,17 @@
     white-space: pre-line;
     user-select: text;
 }
-
+.others_chat_body .msg_holder .img_msg{
+    width: 100%;
+}
+.others_chat_body .msg_holder .img_warn{
+    font-size: 0.8rem;
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 3px;
+}
 .others_chat_body .pfp_holder{
     grid-column-start: 1;
     grid-column-end: 1;

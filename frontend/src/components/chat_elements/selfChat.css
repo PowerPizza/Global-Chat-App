@@ -20,6 +20,17 @@
     white-space: pre-line;
     user-select: text;
 }
+.self_chat_body .msg_holder .img_msg{
+    width: 100%;
+}
+.self_chat_body .msg_holder .img_warn{
+    font-size: 0.8rem;
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 3px;
+}
 
 .self_chat_body .pfp_holder{
     grid-column-start: 2;

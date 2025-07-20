@@ -1,0 +1,49 @@
+.draw_main_body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    width: 100%;
+    background-color: transparent;
+}
+.draw_main_body.expanded{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: auto;
+    z-index: 10;
+    background-color: gray;
+}
+
+.draw_main_body .tools{
+    display: flex;
+    gap: 5px;
+    padding-top: 5px;
+    padding-left: 10px;
+    margin-left: auto;
+}
+.draw_main_body .tools .icon{
+    padding: 2px;
+    transition: all 0.3s;
+    &:hover{
+        background-color: rgb(94, 94, 94);
+    }
+}
+.draw_main_body .tools .icon.selected{
+    background-color: rgb(94, 94, 94);
+}
+
+.draw_main_body .tools #color_select{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    opacity: 0;
+}
+.draw_main_body .tools .fill_color:hover .icon{
+    background-color: rgb(94, 94, 94);
+}
+
+.draw_main_body .drawing_area{
+    width: auto;
+    height: auto;
+    background-color: white;
+}
