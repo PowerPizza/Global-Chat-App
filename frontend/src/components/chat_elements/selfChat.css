@@ -15,6 +15,7 @@
     padding: 15px;
     height: fit-content;
     width: fit-content;
+    word-break: break-word;
 }
 .self_chat_body .msg_holder .msg{
     white-space: pre-line;

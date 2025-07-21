@@ -1,4 +1,4 @@
-import { ArrowLeft, Edit, InfoCircle, MediaImage, MessageText, MoreHorizCircle, SendDiagonalSolid } from 'iconoir-react'
+import { ArrowLeft, Edit, InfoCircle, MessageText, MoreHorizCircle, SendDiagonalSolid } from 'iconoir-react'
 import './chatArea.css'
 import { useContext, useState } from 'react'
 import OthersChat from '../chat_elements/OthersChat';
