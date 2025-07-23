@@ -10,6 +10,7 @@ import dotenv from 'dotenv'
 import {initDatabase, getDatabaseInstance, getMongoDBClient} from './database/mongo_client.mjs'
 import session from 'express-session';
 import MongoStore from 'connect-mongo'
+import { ObjectId } from 'mongodb';
 
 dotenv.config();
 await initDatabase();
@@ -55,17 +56,23 @@ app.get("*ANY", (req, res)=>{
     res.sendFile(path.join(PUBLIC_FOLDER, "index.html"));
 });
 
+async function sendUsersList(){
+    let user_coll = getDatabaseInstance().collection("users");
+    let users_ = user_coll.find({}, {projection: {"password": 0, "gmail": 0}});
+    let to_send = [];
+    while (await users_.hasNext()){
+        to_send.push(await users_.next());
+    }
+    ws.emit("users", to_send);
+}
+
 ws.on("connection", async (soc)=>{
     console.log("CONNECTED", soc.id);
     
     soc.on("new_user_online", async ()=>{
         let user_coll = getDatabaseInstance().collection("users");
-        let users_ = user_coll.find({}, {projection: {"password": 0, "gmail": 0}});
-        let to_send = [];
-        while (await users_.hasNext()){
-            to_send.push(await users_.next());
-        }
-        ws.emit("users", to_send);
+        await user_coll.updateOne({"_id": ObjectId.createFromHexString(soc.request.session.user_creds["_id"])}, {"$set": {"status": "online"}}, {"upsert": true});
+        await sendUsersList();
     })
 
     soc.on("chat", (data, callback)=>{
@@ -84,18 +91,14 @@ ws.on("connection", async (soc)=>{
     soc.on("disconnect", async ()=>{
         if ("user_creds" in soc.request.session) {
             console.log("DISCONNECTED : ", soc.request.session.user_creds);
+            await getDatabaseInstance().collection("users").updateOne({"_id": ObjectId.createFromHexString(soc.request.session.user_creds["_id"])}, {"$set": {"status": "offline"}}, {"upsert": true});
+            await sendUsersList();
         }
-            console.log("DISCONNECTED : ", soc.request.session);
-    })
+        console.log("DISCONNECTED : ", soc.request.session);
+    });
 
     if (!("user_creds" in soc.request.session)) {
-        let user_coll = getDatabaseInstance().collection("users");
-        let users_ = user_coll.find({}, {projection: {"password": 0, "gmail": 0}});
-        let to_send = [];
-        while (await users_.hasNext()){
-            to_send.push(await users_.next());
-        }
-        soc.emit("users", to_send);
+        await sendUsersList();
     }
 });
 
