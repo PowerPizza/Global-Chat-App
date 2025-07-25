@@ -66,12 +66,15 @@ async function sendUsersList(){
     ws.emit("users", to_send);
 }
 
+let typing_users = [];
 ws.on("connection", async (soc)=>{
     console.log("CONNECTED", soc.id);
     
     soc.on("new_user_online", async ()=>{
         let user_coll = getDatabaseInstance().collection("users");
-        await user_coll.updateOne({"_id": ObjectId.createFromHexString(soc.request.session.user_creds["_id"])}, {"$set": {"status": "online"}}, {"upsert": true});
+        if ("user_creds" in soc.request.session){
+            await user_coll.updateOne({"_id": ObjectId.createFromHexString(soc.request.session.user_creds["_id"])}, {"$set": {"status": "online"}}, {"upsert": true});
+        }
         await sendUsersList();
     })
 
@@ -86,7 +89,21 @@ ws.on("connection", async (soc)=>{
     soc.on("draw_chat", (data, callback)=>{
         soc.broadcast.emit("draw_chat", data);
         callback(true);
-    })
+    });
+
+    soc.on("add_typing_user", (data_)=>{
+        if (!typing_users.includes(data_)){
+            typing_users.push(data_);
+            soc.broadcast.emit("typing_users", typing_users);
+        }
+    });
+
+    soc.on("remove_typing_user", (data_)=>{
+        if (typing_users.includes(data_)){
+            typing_users.splice(typing_users.indexOf(data_), 1);
+            soc.broadcast.emit("typing_users", typing_users);
+        }
+    });
 
     soc.on("disconnect", async ()=>{
         if ("user_creds" in soc.request.session) {

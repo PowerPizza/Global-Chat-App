@@ -27,6 +27,7 @@ login_route.post("/log_in", async (req, res)=>{
 
 login_route.post("/log_out", async (req, res)=>{
     await getDatabaseInstance().collection("users").updateOne({"_id": ObjectId.createFromHexString(req.session["user_creds"]["_id"])}, {"$set": {"status": "offline"}}, {"upsert": true});
+    console.log(req.session["user_creds"]["_id"]);
     delete req.session["user_creds"];
     res.json({"status": "success"});
 })

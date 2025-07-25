@@ -19,6 +19,24 @@
     border-radius: 55px;
     background-color: white;
 }
+.chat_area_body .chat_header .labels_holder{
+    display: flex;
+    flex-direction: column;
+}
+.chat_area_body .chat_header .labels_holder .typing_status{
+    font-size: 0.8rem;
+    color: #c0c0c0;
+}
+.chat_area_body .chat_header .labels_holder .typing_status::after{
+    content: "";
+    animation: typing_loader 1s infinite linear;
+}
+@keyframes typing_loader {
+    0% {content: ".";}
+    50% {content: "..";}
+    100% {content: "...";}
+    
+}
 .chat_area_body .chat_header .user_name{
     font-size: 1.2rem;
     font-weight: 600;

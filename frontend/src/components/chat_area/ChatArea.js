@@ -1,6 +1,6 @@
 import { ArrowLeft, Edit, InfoCircle, MessageText, MoreHorizCircle, SendDiagonalSolid } from 'iconoir-react'
 import './chatArea.css'
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import OthersChat from '../chat_elements/OthersChat';
 import SelfChat from '../chat_elements/SelfChat';
 import LoadingCircle from '../loading_circle/LoadingCircle';
@@ -12,14 +12,35 @@ export default function ChatArea(props) {
     const [chat_mode, setChatMode] = useState("text");
     const [opt_menu_opened, setOptMenuOpened] = useState(false);
     const [draw_sending, setDrawSending] = useState(false);
+    const [is_typing, setIsTyping] = useState(false);
     const shared_data = useContext(SharedContext);
+    const typing_interval = useRef(null);
 
     function onMsgInput(ele) {
         setMsg(ele.target.value);
+        if (!is_typing){
+            setIsTyping(true);
+            shared_data.ws.emit("add_typing_user", shared_data.user_creds["_id"]);
+            console.log("typing start");
+        }
+        clearInterval(typing_interval.current);
+        typing_interval.current = setTimeout(()=>{
+            console.log("Typing stopped");
+            shared_data.ws.emit("remove_typing_user", shared_data.user_creds["_id"]);
+            setIsTyping(false);
+        }, 5000);
     }
 
     function onSend() {
-        shared_data.send_chat(msg_);
+        clearInterval(typing_interval.current);
+        shared_data.ws.emit("remove_typing_user", shared_data.user_creds["_id"]);
+        setIsTyping(false);
+        shared_data.send_chat(msg_, ()=>{
+            setMsg("");
+            try{
+                document.getElementById("msg_text_type_input").value = "";
+            } catch (e) {};
+        });
     }
 
     function go_back() {
@@ -62,7 +83,14 @@ export default function ChatArea(props) {
                     <ArrowLeft width={25} height={25} color='white' strokeWidth={2} onClick={go_back} style={{ cursor: "pointer" }} />
                     : null}
                 <img src={shared_data.selected_chat["pfp_url"]} alt="" className='pfp' />
-                <span className='user_name'>{shared_data.selected_chat["username"]} <span style={{ color: (shared_data.selected_chat["status"] || "offline") === "offline" ? "#89888c" : "#48cb03" }}>●</span></span>
+                <div className='labels_holder'>
+                    <span className='user_name'>{shared_data.selected_chat["username"]} <span style={{ color: (shared_data.selected_chat["status"] || "offline") === "offline" ? "#89888c" : "#48cb03" }}>●</span></span>
+                    {shared_data.typing_users.includes(shared_data.selected_chat["_id"]) ?
+                        <span className='typing_status'>typing</span>
+                        :
+                        null
+                    }
+                </div>
                 <InfoCircle width={30} height={30} color='white' className='info_icon' />
             </div>
 
@@ -92,7 +120,7 @@ export default function ChatArea(props) {
             <div className='chat_entry'>
                 <div className={`input_holder ${chat_mode}`}>
                     {chat_mode === "text" ?
-                        <textarea className='msg_entry form_entry' placeholder='Send a message' onChange={onMsgInput}></textarea>
+                        <textarea className='msg_entry form_entry' id='msg_text_type_input' placeholder='Send a message' onChange={onMsgInput}></textarea>
                         :
                         <DrawChatArea />
                     }

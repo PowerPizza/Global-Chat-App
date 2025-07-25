@@ -17,6 +17,7 @@ export default function App() {
   const selected_chat_ref = useRef(selected_chat);
   const [chats, setChats] = useState(null);
   const [disable_send_btn, setDisableSendBtn] = useState(false);
+  const [current_typings, setCurrentTypings] = useState([]);
   const ws = useRef(null);
 
   function createMsgBox(msg, type) {
@@ -47,7 +48,7 @@ export default function App() {
     }
   }
 
-  async function sendChat(msg_) {
+  async function sendChat(msg_, callback) {
     if (!msg_.replaceAll("\n", "").replaceAll(" ", "")) return;
     setDisableSendBtn(true);
     const d = new Date();
@@ -62,6 +63,7 @@ export default function App() {
     await ws.current.emit("chat", to_send, (is_sent)=>{
       setChats((old_msgs)=>[...old_msgs, to_send])
       setDisableSendBtn(false);
+      callback();
     });
   }
 
@@ -106,6 +108,11 @@ export default function App() {
       }
     });
 
+    ws.current.on("typing_users", (data_)=>{
+      console.log("typings : ", data_);
+      setCurrentTypings(data_);
+    });
+
     get_login_creds();
   }, []);
 
@@ -120,7 +127,8 @@ export default function App() {
     "selected_chat": selected_chat,
     "chats": chats,
     "setChats": setChats,
-    "on_logout": on_logout
+    "on_logout": on_logout,
+    "typing_users": current_typings
   }
 
   return (
