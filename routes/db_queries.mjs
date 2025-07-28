@@ -1,5 +1,6 @@
 import express from 'express'
 import {getDatabaseInstance} from '../database/mongo_client.mjs'
+import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 
@@ -21,5 +22,11 @@ router.post("/set_user_status", async (req, res)=>{
     console.log(db_resp);
     res.json({"status": "success"});
 })
+
+router.post("/delete_msg", async (req, res)=>{
+    let msg_id_ = req.body;
+    await getDatabaseInstance().collection("messages").deleteOne({"_id": ObjectId.createFromHexString(msg_id_["msg_id"])});
+    res.json({"status": "success"});
+});
 
 export default router;

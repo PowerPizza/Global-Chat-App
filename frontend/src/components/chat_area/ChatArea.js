@@ -1,6 +1,6 @@
 import { ArrowLeft, Edit, InfoCircle, MessageText, MoreHorizCircle, SendDiagonalSolid } from 'iconoir-react'
 import './chatArea.css'
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import OthersChat from '../chat_elements/OthersChat';
 import SelfChat from '../chat_elements/SelfChat';
 import LoadingCircle from '../loading_circle/LoadingCircle';
@@ -13,6 +13,7 @@ export default function ChatArea(props) {
     const [opt_menu_opened, setOptMenuOpened] = useState(false);
     const [draw_sending, setDrawSending] = useState(false);
     const [is_typing, setIsTyping] = useState(false);
+    const [last_selected_chat, setLastSelectedChat] = useState(null);
     const shared_data = useContext(SharedContext);
     const typing_interval = useRef(null);
 
@@ -21,11 +22,9 @@ export default function ChatArea(props) {
         if (!is_typing){
             setIsTyping(true);
             shared_data.ws.emit("add_typing_user", shared_data.user_creds["_id"]);
-            console.log("typing start");
         }
         clearInterval(typing_interval.current);
         typing_interval.current = setTimeout(()=>{
-            console.log("Typing stopped");
             shared_data.ws.emit("remove_typing_user", shared_data.user_creds["_id"]);
             setIsTyping(false);
         }, 5000);
@@ -39,6 +38,7 @@ export default function ChatArea(props) {
             setMsg("");
             try{
                 document.getElementById("msg_text_type_input").value = "";
+                scroll_to_bottom();
             } catch (e) {};
         });
     }
@@ -55,7 +55,7 @@ export default function ChatArea(props) {
                 chat_area.scrollBy(0, chat_area.scrollHeight);
                 clearInterval(iv);
             }
-        }, 500);
+        }, 100);
     }
 
     function onSendDrawMsg() {
@@ -75,6 +75,11 @@ export default function ChatArea(props) {
             setDrawSending(false);
         })
     }
+
+    // if (last_selected_chat !== shared_data.selected_chat){
+    //     setLastSelectedChat(shared_data.selected_chat);
+    //     console.log("SCOLL BOTTOM");
+    // }
 
     return (
         <div className='chat_area_body'>
@@ -103,14 +108,15 @@ export default function ChatArea(props) {
                         <span style={{ textAlign: "center" }}>No chats found! Send 'Hi' to start chatting.</span>
                         :
                         shared_data.chats.map((ele, idx) => {
-                            if (idx === shared_data.chats.length - 1) {
+                            if (idx === shared_data.chats.length - 1 && last_selected_chat !== shared_data.selected_chat) {
                                 scroll_to_bottom();
+                                setLastSelectedChat(shared_data.selected_chat);
                             }
                             if (ele["from"] === shared_data.selected_chat["_id"]) {
-                                return <OthersChat key={idx + "_other_chat"} type={ele["type"]} msg={ele["msg"]} img_url={ele["img_url"]} time={ele["time"]} pfp_url={shared_data.selected_chat["pfp_url"]} />
+                                return <OthersChat key={idx + "_other_chat"} msg_id={ele["_id"]} type={ele["type"]} msg={ele["msg"]} img_url={ele["img_url"]} time={ele["time"]} pfp_url={shared_data.selected_chat["pfp_url"]} />
                             }
                             else {
-                                return <SelfChat key={idx + "_self_chat"} type={ele["type"]} msg={ele["msg"]} img_url={ele["img_url"]} time={ele["time"]} pfp_url={shared_data.user_creds["pfp_url"]} />
+                                return <SelfChat key={idx + "_self_chat"} msg_id={ele["_id"]} type={ele["type"]} msg={ele["msg"]} img_url={ele["img_url"]} time={ele["time"]} pfp_url={shared_data.user_creds["pfp_url"]} />
                             }
                         })
                 }

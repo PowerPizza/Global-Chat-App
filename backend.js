@@ -78,12 +78,10 @@ ws.on("connection", async (soc)=>{
         await sendUsersList();
     })
 
-    soc.on("chat", (data, callback)=>{
-        console.log(data);
-        let msg_coll = getDatabaseInstance().collection("messages");
-        msg_coll.insertOne(data);
+    soc.on("chat", async (data, callback)=>{
+        let db_resp_ = await getDatabaseInstance().collection("messages").insertOne(data);
         soc.broadcast.emit("chat", data);
-        callback(true);
+        callback(db_resp_["insertedId"]);
     });
 
     soc.on("draw_chat", (data, callback)=>{
@@ -104,6 +102,10 @@ ws.on("connection", async (soc)=>{
             soc.broadcast.emit("typing_users", typing_users);
         }
     });
+
+    soc.on("req_reload_msgs_broadcast", (data)=>{
+        ws.emit("req_reload_msgs_broadcast", data);
+    })
 
     soc.on("disconnect", async ()=>{
         if ("user_creds" in soc.request.session) {

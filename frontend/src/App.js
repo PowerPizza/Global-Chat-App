@@ -60,7 +60,9 @@ export default function App() {
       "date": `${String(d.getDate()).padStart(2, 0)}-${String(d.getMonth()).padStart(2, 0)}-${d.getFullYear()}`,
       "time": d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true})
     }
-    await ws.current.emit("chat", to_send, (is_sent)=>{
+    await ws.current.emit("chat", to_send, (chat_id)=>{
+      // this code will execute after msg is written in DB
+      to_send["_id"] = chat_id;
       setChats((old_msgs)=>[...old_msgs, to_send])
       setDisableSendBtn(false);
       callback();
@@ -112,6 +114,14 @@ export default function App() {
       console.log("typings : ", data_);
       setCurrentTypings(data_);
     });
+    
+    ws.current.on("req_reload_msgs_broadcast", async (data_)=>{
+      if (data_["selected_user_id"] === user_creds_ref.current["_id"] || data_["selected_user_id"] === selected_chat_ref.current["_id"]){
+        let http_resp = await fetch("/db_q/get_conversations", {method: "POST", body: JSON.stringify({between: [user_creds_ref.current["_id"], selected_chat_ref.current["_id"]]}), headers: {"Content-Type": "application/json"}});
+        http_resp = await http_resp.json();
+        setChats(http_resp["chats"]);
+      }
+    })
 
     get_login_creds();
   }, []);
@@ -128,7 +138,7 @@ export default function App() {
     "chats": chats,
     "setChats": setChats,
     "on_logout": on_logout,
-    "typing_users": current_typings
+    "typing_users": current_typings,
   }
 
   return (

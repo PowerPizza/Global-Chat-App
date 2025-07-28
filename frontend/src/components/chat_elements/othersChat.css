@@ -6,6 +6,43 @@
     max-width: 350px;
     height: fit-content;
     margin-right: auto;
+    position: relative;
+}
+
+.others_chat_body .msg_options{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: #2b234bfd;
+    box-shadow: 0px 0px 8px 0px rgba(211, 211, 211, 0.5);
+    border-radius: 8px;
+    height: fit-content;
+    bottom: 100%;
+    margin-left: 25%;
+    width: 200px;
+    padding: 5px;
+    overflow: auto;
+    animation: 0.2s msg_opt_apper_anim;
+}
+@keyframes msg_opt_apper_anim {
+    0% {max-height: 0;}
+    100% {max-height: 100%;}
+}
+.others_chat_body .msg_options .opt{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 3px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-radius: 3px;
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+.others_chat_body .msg_options .opt .icon{
+    margin-left: auto;
 }
 
 .others_chat_body .msg_holder{
