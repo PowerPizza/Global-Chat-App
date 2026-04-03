@@ -1,6 +1,6 @@
 import "./leftMenuPanel.css"
 import app_icon from '../../images/app_icon.png'
-import { RefreshDouble, Search } from "iconoir-react";
+import { Collapse, Expand, RefreshDouble, Search } from "iconoir-react";
 import LoadingCircle from "../loading_circle/LoadingCircle";
 import { useContext, useState } from "react";
 import { SharedContext } from "../../contexts/SharedDataContext";
@@ -24,6 +24,7 @@ export default function LeftMenuPanel(props) {
   const shared_context = useContext(SharedContext);
     const [dot_menu_opened, setDotMenuOpened] = useState(false);
     const [logout_loader, setLogoutLoader] = useState(false);
+    const [is_full_screen, setIsFullScreen] = useState(document.fullscreenElement);
 
     
     function toggle_dot_menu(){
@@ -38,11 +39,31 @@ export default function LeftMenuPanel(props) {
       });
     }
 
+    function request_full_screen(){
+      console.log("filling");
+      document.getElementById("root").requestFullscreen().then(()=>{
+        setIsFullScreen(true);
+      }).catch((err)=>{
+        setIsFullScreen(false);
+        shared_context.create_msg_box("Failed to full screen!", "error");
+      });
+    }
+    function exit_full_screen(){
+      document.exitFullscreen().then(()=>{}).catch((e)=>{}).finally(()=>{
+        setIsFullScreen(false);
+      });
+    }
+
   return (
     <div className='left_menu_body glass-light'>
       <div className='left_side_header'>
         <img src={app_icon} alt="app icon" className='app_icon' />
         <h2 className='app_title'>Global Chat</h2>
+        {is_full_screen ? 
+        <Collapse width={30} height={30} color="white" className="full_screen" onClick={exit_full_screen}/>
+        :
+        <Expand width={30} height={30} color="white" className="full_screen" onClick={request_full_screen}/>
+        }
         {props.device_width < 920 && !isObjectEmpty(shared_context.user_creds)? 
           <span className="menu_dot">
             <svg onClick={toggle_dot_menu} className='menu_dot' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6C12.5523 6 13 5.55228 13 5Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20C12.5523 20 13 19.5523 13 19Z" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>

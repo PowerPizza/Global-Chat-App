@@ -34,10 +34,20 @@
     font-weight: 600;
     font-size: 1.4rem;
 }
+.left_menu_body .left_side_header .full_screen{
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    transition: all 0.3s;
+    &:hover{
+        background-color: rgba(99, 99, 99, 0.459);
+    }
+}
 .left_menu_body .left_side_header .menu_dot{
     width: 30px;
     height: 30px;
-    margin-left: auto;
+    /* margin-left: auto; */
     padding: 3px;
     cursor: pointer;
 }
