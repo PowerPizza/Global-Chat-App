@@ -6,11 +6,11 @@ const login_route = express.Router();
 
 login_route.use(express.json());
 
-login_route.post("/user_creds", (req, res)=>{
+login_route.get("/user-creds", (req, res)=>{
     res.json(req.session["user_creds"] || {});
 });
 
-login_route.post("/log_in", async (req, res)=>{
+login_route.post("/log-in", async (req, res)=>{
     let data_ = req.body;
     let user_coll = getDatabaseInstance().collection("users");
     let already_exist = await user_coll.findOne({"gmail": data_["gmail"], "password": data_["password"]});
@@ -25,7 +25,7 @@ login_route.post("/log_in", async (req, res)=>{
     }
 });
 
-login_route.post("/log_out", async (req, res)=>{
+login_route.post("/log-out", async (req, res)=>{
     await getDatabaseInstance().collection("users").updateOne({"_id": ObjectId.createFromHexString(req.session["user_creds"]["_id"])}, {"$set": {"status": "offline"}}, {"upsert": true});
     console.log(req.session["user_creds"]["_id"]);
     delete req.session["user_creds"];

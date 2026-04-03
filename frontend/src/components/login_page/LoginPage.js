@@ -24,7 +24,7 @@ export default function LoginPage(props) {
       "password": password
     }
     setIsLoading(true);
-    let http_resp = await fetch("/login/log_in", {method: "POST", body: JSON.stringify(to_send), headers: {"Content-Type": "application/json"}});
+    let http_resp = await fetch("/login/log-in", {method: "POST", body: JSON.stringify(to_send), headers: {"Content-Type": "application/json"}});
     http_resp = await http_resp.json();
     if (http_resp.status === "success") {
       props.createMsgBox("Logged in successfully.", "success");

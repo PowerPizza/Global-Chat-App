@@ -54,7 +54,7 @@ export default function SignupPage(props) {
       "pfp_url": pfp_url+"#"
     }
     setIsLogin(true);
-    let http_resp = await fetch("/signup/add_user", {method: "POST", body: JSON.stringify(to_send), headers: {"Content-Type": "application/json"}});
+    let http_resp = await fetch("/signup/add-user", {method: "POST", body: JSON.stringify(to_send), headers: {"Content-Type": "application/json"}});
     http_resp = await http_resp.json();
     if (http_resp.status === "success"){
       props.createMsgBox("Signed up successfully.", "success");

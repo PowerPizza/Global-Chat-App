@@ -50,7 +50,7 @@ app.use(logger);
 
 app.use("/signup", signup_route);
 app.use("/login", login_route);
-app.use("/db_q", db_route);
+app.use("/db-query", db_route);
 
 app.get("*ANY", (req, res)=>{
     res.sendFile(path.join(PUBLIC_FOLDER, "index.html"));
