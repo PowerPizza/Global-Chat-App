@@ -33,14 +33,14 @@ export default function App() {
       setSelectedChat(null)
       return;
     }
-    let http_resp = await fetch("/db_q/get_conversations", {method: "POST", body: JSON.stringify({between: [user_creds["_id"], metadata["_id"]]}), headers: {"Content-Type": "application/json"}});
+    let http_resp = await fetch("/db-query/get-conversations-between", {method: "POST", body: JSON.stringify({between: [user_creds["_id"], metadata["_id"]]}), headers: {"Content-Type": "application/json"}});
     http_resp = await http_resp.json();
     setChats(http_resp["chats"]);
     setSelectedChat(metadata);
   }
 
   async function get_login_creds() {
-    let http_resp = await fetch("/login/user_creds", {method: "POST"});
+    let http_resp = await fetch("/login/user-creds", {method: "GET"});
     http_resp = await http_resp.json();
     setUserCreds(http_resp);
     if (http_resp && Object.keys(http_resp).length){
@@ -74,7 +74,7 @@ export default function App() {
   }
 
   async function on_logout() {
-    let http_resp = await fetch("/login/log_out", { method: "POST" });
+    let http_resp = await fetch("/login/log-out", { method: "POST" });
     http_resp = await http_resp.json();
     if (http_resp.status === "success") {
       shared_data.ws.emit("new_user_online");
@@ -117,7 +117,7 @@ export default function App() {
     
     ws.current.on("req_reload_msgs_broadcast", async (data_)=>{
       if (data_["selected_user_id"] === user_creds_ref.current["_id"] || data_["selected_user_id"] === selected_chat_ref.current["_id"]){
-        let http_resp = await fetch("/db_q/get_conversations", {method: "POST", body: JSON.stringify({between: [user_creds_ref.current["_id"], selected_chat_ref.current["_id"]]}), headers: {"Content-Type": "application/json"}});
+        let http_resp = await fetch("/db-query/get-conversations-between", {method: "POST", body: JSON.stringify({between: [user_creds_ref.current["_id"], selected_chat_ref.current["_id"]]}), headers: {"Content-Type": "application/json"}});
         http_resp = await http_resp.json();
         setChats(http_resp["chats"]);
       }

@@ -24,13 +24,19 @@ export default function SelfChat(props) {
 
   async function on_delete_msg(){
     setShowDelLoader(true);
-    let http_resp = await fetch("/db_q/delete_msg", {method: "POST", body: JSON.stringify({"msg_id": props.msg_id}), headers: {"Content-Type": "application/json"}});
+    let http_resp = await fetch(`/db-query/delete-msg-by-id/${props.msg_id}`, {method: "DELETE"});
     http_resp = await http_resp.json();
-    if (http_resp["status"] === "success"){
+    if (http_resp.status === "success"){
       shared_data.ws.emit("req_reload_msgs_broadcast", {"selected_user_id": shared_data.user_creds["_id"]}, ()=>{
         setShowDelLoader(false);
         setMsgOptVisible(false);
       });
+    }
+    else if (http_resp.status === "failed") {
+      console.log(http_resp.error)
+      shared_data.create_msg_box(`Failed to delete message.\n${http_resp.error}`, 'error');
+      setShowDelLoader(false);
+      setMsgOptVisible(false);
     }
   }
 

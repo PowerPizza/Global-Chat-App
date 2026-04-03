@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.post("/get_conversations", async (req, res)=>{
+router.post("/get-conversations-between", async (req, res)=>{
     let data_ = req.body;
     let db_resp = await getDatabaseInstance().collection("messages").find({"from": {"$in": data_["between"]}, "to": {"$in": data_["between"]}});
     let to_send = []
@@ -16,17 +16,22 @@ router.post("/get_conversations", async (req, res)=>{
     res.json({"chats": to_send});
 });
 
-router.post("/set_user_status", async (req, res)=>{
+router.put("/set-user-status", async (req, res)=>{
     let data_ = req.body;
     let db_resp = await getDatabaseInstance().collection("messages").updateOne({"_id": data_["_id"]}, {"$set": {"status": data_["status"]}}, {"upsert": true})
     console.log(db_resp);
     res.json({"status": "success"});
 })
 
-router.post("/delete_msg", async (req, res)=>{
-    let msg_id_ = req.body;
-    await getDatabaseInstance().collection("messages").deleteOne({"_id": ObjectId.createFromHexString(msg_id_["msg_id"])});
-    res.json({"status": "success"});
+router.delete("/delete-msg-by-id/:msgId", async (req, res)=>{
+    try {
+        const {msgId} = req.params;
+        await getDatabaseInstance().collection("messages").deleteOne({"_id": ObjectId.createFromHexString(msgId)});
+        res.json({"status": "success"});
+    }
+    catch (e) {
+        res.json({"status": "failed", "error": String(e)});
+    }
 });
 
 export default router;
