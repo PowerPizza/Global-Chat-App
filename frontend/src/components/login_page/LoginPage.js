@@ -47,12 +47,12 @@ export default function LoginPage(props) {
         <img src={app_icon} alt="App icon" className='app_icon' draggable={false} />
         <h2 className='app_name'>Global Chat</h2>
       </div>
-      <div className='form_area glass-light'>
+      <form className='form_area glass-light' id='login-form' onSubmit={onSubmitLogin}>
         <h2 className='form_title'>Login</h2>
         <input type="email" placeholder='gmail' className='form_entry' onChange={onGmailInput} />
         <input type="password" placeholder='password' className='form_entry' onChange={onPasswordInput} />
         <span className='forgot_password'>Forgot password?</span>
-        <button className='form_btn' onClick={isLoading ? ()=>{}: onSubmitLogin}>
+        <button type='submit' className='form_btn' onClick={isLoading ? ()=>{}: onSubmitLogin}>
           Login
           {isLoading ? 
           <span>
@@ -61,7 +61,7 @@ export default function LoginPage(props) {
           : null}
         </button>
         <span className='switch_signup'>Don't have an account? <Link style={{color: "#8c4eec", fontWeight: "600", textDecoration: "none"}} to={"/signup"}>Signup here</Link></span>
-      </div>
+      </form>
     </div>
   )
 }

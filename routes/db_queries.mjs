@@ -1,5 +1,5 @@
 import express from 'express'
-import {getDatabaseInstance} from '../database/mongo_client.mjs'
+import {getDatabaseInstance} from '../database/mongo-client.mjs'
 import { ObjectId } from 'mongodb';
 
 const router = express.Router();
