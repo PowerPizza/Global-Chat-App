@@ -17,7 +17,7 @@ code {
 }
 
 ::-webkit-scrollbar{
-    width: 3px;
+    width: 6px;
 }
 ::-webkit-scrollbar-track{
     background-color: #5647814d;
@@ -54,6 +54,27 @@ code {
     box-shadow: 0px 0px 0px 2px #615fc9;
   }
 }
+.form_entry:required::after{
+  content: "*";
+}
+
+.form_select{
+  background-color: transparent;
+  border: 1px solid #525264;
+  padding: 10px 8px 10px 8px;
+  border-radius: 6px;
+  font-size: 1.06rem;
+  font-weight: 500;
+  color: white;
+  outline: none;
+  width: 100%;
+  &:focus{
+    box-shadow: 0px 0px 0px 2px #615fc9;
+  }
+}
+.form_select option {
+  background: rgb(27, 27, 27);
+}
 
 .form_btn{
   background: linear-gradient(to right, #ba85f3, #ac73f1, #9d60ee, #8c4eec, #793aea);
@@ -64,4 +85,18 @@ code {
   color: white;
   font-weight: 500;
   cursor: pointer;
+}
+
+/* Common Input Styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
 }

@@ -1,0 +1,67 @@
+{
+    "$jsonSchema": {
+        "bsonType": "object",
+        "title": "users validation schema",
+        "required": [
+            "username", "gmail", "password", "age",
+            "gender", "countryCode", "phoneNumber", "country",
+            "city", "pfpUrl", "termsAccepted", "role"
+        ],
+        "additionalProperties": false,
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "username": {
+                "bsonType": "string",
+                "description": "username must be string."
+            },
+            "gmail": {
+                "bsonType": "string",
+                "description": "gmail must be string."
+            },
+            "password": {
+                "bsonType": "string",
+                "description": "password must be string."
+            },
+            "age": {
+                "bsonType": "int",
+                "description": "age must be string.",
+                "minimum": 1,
+                "maximum": 200
+            },
+            "gender": {
+                "enum": ["male", "female", "Rather Not Say", "Others"],
+                "description": "gender must be male, female, rather not say or others."
+            },
+            "countryCode": {
+                "bsonType": "string",
+                "description": "country code must be string."
+            },
+            "phoneNumber": {
+                "bsonType": "string",
+                "description": "phone no. must be string."
+            },
+            "country": {
+                "bsonType": "string",
+                "description": "country must be string."
+            },
+            "city": {
+                "bsonType": "string",
+                "description": "city must be string."
+            },
+            "pfpUrl": {
+                "bsonType": "string",
+                "description": "pfp url must be string."
+            },
+            "termsAccepted": {
+                "bsonType": "bool",
+                "description": "terms must be boolean."
+            },
+            "role": {
+                "enum": ["admin", "user", "moderator"],
+                "description": "role must be admin, user or moderator."
+            }
+        }
+    }
+}

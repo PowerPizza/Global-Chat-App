@@ -7,7 +7,7 @@ import signup_route from './routes/signup.mjs'
 import login_route from './routes/login.mjs'
 import db_route from './routes/db_queries.mjs'
 import dotenv from 'dotenv'
-import {initDatabase, getDatabaseInstance, getMongoDBClient} from './database/mongo_client.mjs'
+import {initDatabase, getDatabaseInstance, getMongoDBClient} from './database/mongo-client.mjs'
 import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import { ObjectId } from 'mongodb';
@@ -125,8 +125,8 @@ ws.on("connection", async (soc)=>{
 http_svr.listen(process.env.PORT, process.env.IP, ()=>{
     console.log("**Server is running at :- ");
     try {
-        console.log(`\t**http://${os.networkInterfaces()["Wi-Fi"][1]["address"]}:${process.env.PORT}`);
         console.log(`\t**http://127.0.0.1:${process.env.PORT}`);
+        console.log(`\t**http://${os.networkInterfaces()["Wi-Fi"][1]["address"]}:${process.env.PORT}`);
     }
     catch (e) {
         console.log(`OS ERROR : ${e} | But server is running...`);

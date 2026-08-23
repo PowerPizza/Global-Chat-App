@@ -1,3 +1,4 @@
+/* Main Window Styles */
 .signup_main_window{
     display: flex;
     align-items: center;
@@ -22,32 +23,38 @@
     font-weight: 600;
     margin: 5px;
 }
-@media screen and (max-width: 600px) {
-    .signup_main_window .app_icon_holder{
-        display: none;
-    }
-}
 
+/* Form Area Styles */
 .signup_main_window .form_area{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     padding: 15px 20px 15px 20px;
-    max-width: 300px;
+    max-width: 350px;
     height: fit-content;
+    max-height: 450px;
     border-radius: 5px;
+    overflow: auto;
     margin: auto;
-}
-@media screen and (max-width: 350px){
-    .signup_main_window .form_area{
-        width: 100%;
-        border-radius: 0px;
-        height: 100%;
-    }
 }
 .signup_main_window .form_area .form_title{
     margin: 5px;
     font-weight: 600;
+}
+.signup_main_window .form_area .form-row {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    position: relative;
+}
+.signup_main_window .form_area .form-row .form_entry{
+    width: 100%;
+}
+.signup_main_window .form_area .form-grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    row-gap: 15px;
+    column-gap: 5px;
 }
 
 .signup_main_window .form_area .form_btn.disabled{
@@ -55,21 +62,57 @@
     cursor: not-allowed;
 }
 
-.signup_main_window .form_area .pfp_entry{
+.signup_main_window .form_area .form-row.password .eye-icon{
+    position: absolute;
+    right: 10px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.signup_main_window .form_area .pfp-entry{
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.signup_main_window .form_area .pfp_entry img{
-    border-radius: 60px;
-    background-color: white;
-    width: 60px;
+.signup_main_window .form_area .pfp-entry .image-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
     aspect-ratio: 1/1;
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+}
+.signup_main_window .form_area .pfp-entry .image-select img{
+    border-radius: 60px;
+    background-color: transparent;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid gray;
+}
+.signup_main_window .form_area .pfp-entry .image-select .cam-icon {
+    position: absolute;
+    opacity: 0.3;
+    transition: all 0.6s;
+    color: rgb(68, 68, 68);
+}
+.signup_main_window .form_area .pfp-entry .image-select:hover .cam-icon {
+    opacity: 1;
+}
+.signup_main_window .form_area .pfp-entry input {
+    width: 100%;
 }
 
 .signup_main_window .form_area .terms_n_conditions{
+    display: flex;
+    align-items: center;
     color: gray;
     font-size: 0.9rem;
+}
+.signup_main_window .form_area .terms_n_conditions input {
+    scale: 1.3;
 }
 .signup_main_window .form_area .terms_n_conditions label{
     margin-left: 5px;
@@ -86,4 +129,20 @@
     gap: 10px;
     align-items: center;
     justify-content: center;
+}
+
+/* Responsiveness - Media Screen Commands */
+@media screen and (max-width: 350px){
+    .signup_main_window .form_area{
+        width: 100%;
+        border-radius: 0px;
+        height: 100%;
+        max-height: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .signup_main_window .app_icon_holder{
+        display: none;
+    }
 }
